@@ -5,7 +5,7 @@
 #include "FirstGameInstance.generated.h"
 
 UCLASS()
-class SECONDPROJECT_API UFirstGameInstance : public UGameInstance
+class CCCCCCCCCCCCCCCCCCC_API UFirstGameInstance : public UGameInstance
 {
 	GENERATED_BODY()
 

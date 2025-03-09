@@ -9,7 +9,7 @@
 class USceneComponent;
 
 UCLASS()
-class SECONDPROJECT_API ABaseItem : public AActor, public IItemInterface
+class CCCCCCCCCCCCCCCCCCC_API ABaseItem : public AActor, public IItemInterface
 {
 	GENERATED_BODY()
 

@@ -10,7 +10,7 @@ class UItemInterface : public UInterface
 	GENERATED_BODY()
 };
 
-class SECONDPROJECT_API IItemInterface
+class CCCCCCCCCCCCCCCCCCC_API IItemInterface
 {
 	GENERATED_BODY()
 

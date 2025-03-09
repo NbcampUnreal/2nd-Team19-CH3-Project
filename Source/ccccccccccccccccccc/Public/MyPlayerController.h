@@ -9,7 +9,7 @@ class UInputAction;
 class UUserWidget;
 
 UCLASS()
-class SECONDPROJECT_API AMyPlayerController : public APlayerController
+class CCCCCCCCCCCCCCCCCCC_API AMyPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 

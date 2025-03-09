@@ -5,7 +5,7 @@
 #include "FirstGameMode.generated.h"
 
 UCLASS()
-class SECONDPROJECT_API AFirstGameMode : public AGameMode
+class CCCCCCCCCCCCCCCCCCC_API AFirstGameMode : public AGameMode
 {
 	GENERATED_BODY()
 	

@@ -8,7 +8,7 @@
 class UBoxComponent;
 
 UCLASS()
-class SECONDPROJECT_API ASpawnVolume : public AActor
+class CCCCCCCCCCCCCCCCCCC_API ASpawnVolume : public AActor
 {
 	GENERATED_BODY()
 	

@@ -10,7 +10,7 @@ class UWidgetComponent;
 struct FInputActionValue;
 
 UCLASS()
-class SECONDPROJECT_API AFirstCharacter : public ACharacter
+class CCCCCCCCCCCCCCCCCCC_API AFirstCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
