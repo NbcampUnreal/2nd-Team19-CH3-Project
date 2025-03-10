@@ -5,7 +5,7 @@
 #include "MineItem.generated.h"
 
 UCLASS()
-class CCCCCCCCCCCCCCCCCCC_API AMineItem : public ABaseItem
+class SECONDPROJECT_API AMineItem : public ABaseItem
 {
 	GENERATED_BODY()
 

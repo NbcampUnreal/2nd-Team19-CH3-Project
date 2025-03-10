@@ -5,7 +5,7 @@
 #include "CoinItem.generated.h"
 
 UCLASS()
-class CCCCCCCCCCCCCCCCCCC_API ACoinItem : public ABaseItem
+class SECONDPROJECT_API ACoinItem : public ABaseItem
 {
 	GENERATED_BODY()
 

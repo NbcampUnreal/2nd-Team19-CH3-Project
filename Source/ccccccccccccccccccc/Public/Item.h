@@ -6,7 +6,7 @@
 
 
 UCLASS()
-class CCCCCCCCCCCCCCCCCCC_API AItem : public AActor
+class SECONDPROJECT_API AItem : public AActor
 {
 	GENERATED_BODY()
 	

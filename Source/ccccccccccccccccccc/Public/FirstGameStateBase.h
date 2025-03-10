@@ -5,7 +5,7 @@
 #include "FirstGameStateBase.generated.h"
 
 UCLASS()
-class CCCCCCCCCCCCCCCCCCC_API AFirstGameStateBase : public AGameStateBase
+class SECONDPROJECT_API AFirstGameStateBase : public AGameStateBase
 {
 	GENERATED_BODY()
 

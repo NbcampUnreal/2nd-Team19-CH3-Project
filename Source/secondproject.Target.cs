@@ -3,13 +3,13 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class cccccccccccccccccccEditorTarget : TargetRules
+public class secondprojectTarget : TargetRules
 {
-	public cccccccccccccccccccEditorTarget( TargetInfo Target) : base(Target)
+	public secondprojectTarget(TargetInfo Target) : base(Target)
 	{
-		Type = TargetType.Editor;
+		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V5;
 		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_5;
-		ExtraModuleNames.Add("ccccccccccccccccccc");
+		ExtraModuleNames.Add("secondproject");
 	}
 }
