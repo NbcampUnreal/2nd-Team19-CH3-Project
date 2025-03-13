@@ -15,6 +15,8 @@ ASPGameState::ASPGameState()
 	LevelDuration = 30.0f;
 	CurrentLevelIndex = 0;
 	MaxLevels = 3;
+	SpawnedEnemyCount = 5;
+	DestroyEmenyCount = 0;
 }
 
 void ASPGameState::BeginPlay()
@@ -93,11 +95,44 @@ void ASPGameState::StartLevel()
 	);
 
 	UpdateHUD();
+	GenerateEnemy();
+
+	UpdateHUD();
 
 	UE_LOG(LogTemp, Warning, TEXT("Level %d Start!, Spawned %d coin"),
 		CurrentLevelIndex + 1,
 		SpawnedCoinCount);
 }
+
+void ASPGameState::OnEnemyDestroyed()
+{
+	DestroyEmenyCount++;
+
+	UE_LOG(LogTemp, Warning, TEXT("Enemy Destroyed: %d / %d"), SpawnedEnemyCount, DestroyEmenyCount)
+		if (SpawnedEnemyCount > 0 && DestroyEmenyCount >= SpawnedEnemyCount)
+		{
+			GenerateEnemy();
+		}
+}
+
+void ASPGameState::GenerateEnemy()
+{
+	TArray<AActor*> FoundVolumes;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ASpawnVolume::StaticClass(), FoundVolumes);
+
+	for (int32 i = 0; i < SpawnedEnemyCount; i++)
+	{
+		if (FoundVolumes.Num() > 0)
+		{
+			ASpawnVolume* SpawnVolume = Cast<ASpawnVolume>(FoundVolumes[0]);
+			if (SpawnVolume)
+			{
+				AActor* SpawnedActor = SpawnVolume->SpawnEnemy();
+			}
+		}
+	}
+}
+
 
 void ASPGameState::OnLevelTimeUp()
 {

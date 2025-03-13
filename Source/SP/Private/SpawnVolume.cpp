@@ -1,5 +1,6 @@
 #include "SpawnVolume.h"
 #include "Components/BoxComponent.h"
+#include "SPEnemy.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
 
@@ -82,5 +83,19 @@ AActor* ASpawnVolume::SpawnItem(TSubclassOf<AActor> ItemClass)
         GetRandomPointInVolume(),
         FRotator::ZeroRotator
     );
+    return SpawnedActor;
+}
+
+AActor* ASpawnVolume::SpawnEnemy()
+{
+    FVector EnemyLocation = GetRandomPointInVolume();
+    EnemyLocation.Z = 0;
+
+    AActor* SpawnedActor = GetWorld()->SpawnActor<ASPEnemy>(
+        DefaultEnemyClass,
+        EnemyLocation,
+        FRotator::ZeroRotator
+    );
+
     return SpawnedActor;
 }
