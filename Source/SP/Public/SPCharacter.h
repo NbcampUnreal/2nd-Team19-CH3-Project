@@ -55,7 +55,14 @@ protected:
 	void StartSprint(const FInputActionValue& value);
 	UFUNCTION()
 	void StopSprint(const FInputActionValue& value);
-
+	
+	/*
+	UFUNCTION()
+	void BeginCrouch(const FInputActionValue& value);
+	UFUNCTION()
+	void EndCrouch(const FInputActionValue& value);
+	*/
+	
 
 private:
 	float NormalSpeed;

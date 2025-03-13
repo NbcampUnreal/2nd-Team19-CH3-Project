@@ -93,6 +93,26 @@ void ASPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 					&ASPCharacter::StopSprint
 				);
 			}
+			/*
+			if (PlayerController->CrouchAction)
+			{
+				EnhancedInput->BindAction(
+					PlayerController->CrouchAction,
+					ETriggerEvent::Triggered,
+					this,
+					&ASPCharacter::BeginCrouch
+				);
+			}
+
+			if (PlayerController->CrouchAction)
+			{
+				EnhancedInput->BindAction(
+					PlayerController->CrouchAction,
+					ETriggerEvent::Completed,
+					this,
+					&ASPCharacter::EndCrouch
+				);
+			}*/
 		}
 	}
 }
@@ -148,6 +168,23 @@ void ASPCharacter::StopSprint(const FInputActionValue& value)
 		GetCharacterMovement()->MaxWalkSpeed = NormalSpeed;
 	}
 }
+
+/*
+void ASPCharacter::BeginCrouch(const FInputActionValue& value)
+{
+	if (value.Get<bool>())
+	{
+		Crouch();
+	}
+}
+void ASPCharacter::EndCrouch(const FInputActionValue& value)
+{
+	if (!value.Get<bool>())
+	{
+		UnCrouch();
+	}
+}
+*/
 
 float ASPCharacter::GetHealth() const
 {

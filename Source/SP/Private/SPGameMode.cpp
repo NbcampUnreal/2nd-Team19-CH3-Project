@@ -9,4 +9,3 @@ ASPGameMode::ASPGameMode()
 	PlayerControllerClass = ASPPlayerController::StaticClass();
 	GameStateClass = ASPGameState::StaticClass();
 }
-

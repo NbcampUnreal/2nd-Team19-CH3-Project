@@ -23,7 +23,6 @@ void ASPGameState::BeginPlay()
 {
 	Super::BeginPlay();
 	StartLevel();
-	UpdateHUD();
 
 	GetWorldTimerManager().SetTimer(
 		HUDUpdateTimerHandle,
@@ -53,6 +52,14 @@ void ASPGameState::AddScore(int32 Amount)
 
 void ASPGameState::StartLevel()
 {
+	if (APlayerController* PlayerController = GetWorld()->GetFirstPlayerController())
+	{
+		if (ASPPlayerController* SPPlayerController = Cast<ASPPlayerController>(PlayerController))
+		{
+			SPPlayerController->ShowGameHUD();
+		}
+	}
+
 	if (UGameInstance* GameInstance = GetGameInstance())
 	{
 		USPGameInstance* SPGameInstance = Cast<USPGameInstance>(GameInstance);
@@ -168,7 +175,7 @@ void ASPGameState::EndLevel()
 		}
 	}
 
-	if (CurrentLevelIndex >= MaxLevels - 1)
+	if (CurrentLevelIndex >= MaxLevels)
 	{
 		OnGameOver();
 		return;
@@ -186,8 +193,13 @@ void ASPGameState::EndLevel()
 
 void ASPGameState::OnGameOver()
 {
-	UpdateHUD();
-	UE_LOG(LogTemp, Warning, TEXT("Game Over!"));
+	if (APlayerController* PlayerController = GetWorld()->GetFirstPlayerController())
+	{
+		if (ASPPlayerController* SPPlayerController = Cast<ASPPlayerController>(PlayerController))
+		{
+			SPPlayerController->ShowMainMenu(true);
+		}
+	}
 }
 
 void ASPGameState::UpdateHUD()
