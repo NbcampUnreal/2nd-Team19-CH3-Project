@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "ItemSpawnRow.h"
+#include "SPEnemy.h"
 #include "GameFramework/Actor.h"
 #include "SpawnVolume.generated.h"
 
@@ -21,7 +22,11 @@ public:
 	UBoxComponent* SpawningBox;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Spawning")
 	UDataTable* ItemDataTable;
+	UPROPERTY(EditAnyWhere, BlueprintReadWrite, Category = "Spawning")
+	TSubclassOf<ASPEnemy>DefaultEnemyClass;
 
+	UFUNCTION(BlueprintCallable, Category = "Spawning")
+	AActor* SpawnEnemy();
 	UFUNCTION(BlueprintCallable, Category = "Spawning")
 	AActor* SpawnRandomItem();
 

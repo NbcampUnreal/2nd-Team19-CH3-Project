@@ -28,6 +28,10 @@ public:
 	int32 MaxLevels;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Level")
 	TArray<FName> LevelMapNames;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Enemy")
+	int32 SpawnedEnemyCount;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Enemy")
+	int32 DestroyEmenyCount;
 
 	FTimerHandle LevelTimerHandle;
 	FTimerHandle HUDUpdateTimerHandle;
@@ -45,4 +49,6 @@ public:
 	void OnCoinCollected();
 	void EndLevel();
 	void UpdateHUD();
+	void OnEnemyDestroyed();
+	void GenerateEnemy();
 };
