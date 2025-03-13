@@ -1,6 +1,5 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "5.4",
 	"EngineAssociation": "5.5",
 	"Category": "",
 	"Description": "",
@@ -8,7 +7,6 @@
 		{
 			"Name": "SP",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
 			"LoadingPhase": "Default",
 			"AdditionalDependencies": [
 				"Engine"
