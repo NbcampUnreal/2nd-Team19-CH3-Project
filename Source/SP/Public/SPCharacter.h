@@ -7,6 +7,7 @@
 class USpringArmComponent;
 class UCameraComponent;
 struct FInputActionValue;
+class AWeapon;
 
 UCLASS()
 class SP_API ASPCharacter : public ACharacter
@@ -35,6 +36,13 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	virtual void OnDeath();
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+	AWeapon* CurrentWeapon;
+	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
+	TSubclassOf<AWeapon> DefaultWeaponClass;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Weapon")
+	FName WeaponSocketName;
+
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual float TakeDamage(
 		float DamageAmount,
@@ -56,12 +64,17 @@ protected:
 	UFUNCTION()
 	void StopSprint(const FInputActionValue& value);
 	
-	/*
+	
 	UFUNCTION()
 	void BeginCrouch(const FInputActionValue& value);
 	UFUNCTION()
 	void EndCrouch(const FInputActionValue& value);
-	*/
+	
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void EquipWeapon(AWeapon* WeaponToEquip);
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void FireWeapon();
 	
 
 private:

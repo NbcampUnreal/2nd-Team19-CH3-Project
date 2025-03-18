@@ -1,5 +1,6 @@
 #include "SPCharacter.h"
 #include "SPPlayerController.h"
+#include "SPWeapon.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -26,6 +27,9 @@ ASPCharacter::ASPCharacter()
 
 	MaxHealth = 100.0f;
 	Health = MaxHealth;
+
+	CurrentWeapon = nullptr;
+	WeaponSocketName = "WeaponSocket";
 }
 
 
@@ -93,7 +97,7 @@ void ASPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 					&ASPCharacter::StopSprint
 				);
 			}
-			/*
+			
 			if (PlayerController->CrouchAction)
 			{
 				EnhancedInput->BindAction(
@@ -112,7 +116,7 @@ void ASPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 					this,
 					&ASPCharacter::EndCrouch
 				);
-			}*/
+			}
 		}
 	}
 }
@@ -169,7 +173,7 @@ void ASPCharacter::StopSprint(const FInputActionValue& value)
 	}
 }
 
-/*
+
 void ASPCharacter::BeginCrouch(const FInputActionValue& value)
 {
 	if (value.Get<bool>())
@@ -184,7 +188,7 @@ void ASPCharacter::EndCrouch(const FInputActionValue& value)
 		UnCrouch();
 	}
 }
-*/
+
 
 float ASPCharacter::GetHealth() const
 {
@@ -214,6 +218,35 @@ float ASPCharacter::TakeDamage(
 	}
 
 	return ActualDamage;
+}
+
+void ASPCharacter::EquipWeapon(AWeapon* WeaponToEquip)
+{
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->Destroy();
+	}
+
+	CurrentWeapon = WeaponToEquip;
+	CurrentWeapon->SetOwner(this);
+
+	USkeletalMeshComponent* CharacterMesh = GetMesh();
+	if (CharacterMesh)
+	{
+		CurrentWeapon->AttachToComponent(CharacterMesh,
+			FAttachmentTransformRules::SnapToTargetNotIncludingScale,
+			WeaponSocketName);
+	}
+	
+	UE_LOG(LogTemp, Warning, TEXT("Weapon Equipped: %s"), *CurrentWeapon->GetName());
+}
+
+void ASPCharacter::FireWeapon()
+{
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->Fire();
+	}
 }
 
 void ASPCharacter::OnDeath()
