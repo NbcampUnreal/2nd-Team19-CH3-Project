@@ -2,11 +2,12 @@
 #include "Components/BoxComponent.h"
 #include "SPEnemy.h"
 #include "Engine/World.h"
+#include "TimerManager.h"
 #include "GameFramework/Actor.h"
 
 ASpawnVolume::ASpawnVolume()
 {
- 	PrimaryActorTick.bCanEverTick = false;
+    PrimaryActorTick.bCanEverTick = false;
 
     Scene = CreateDefaultSubobject<USceneComponent>(TEXT("Scene"));
     SetRootComponent(Scene);
@@ -17,13 +18,49 @@ ASpawnVolume::ASpawnVolume()
     ItemDataTable = nullptr;
 }
 
+void ASpawnVolume::BeginPlay()
+{
+    Super::BeginPlay();
+}
+
+AActor* ASpawnVolume::SpawnEnemy()
+{
+    if (!DefaultEnemyClass) return nullptr;
+
+    UWorld* World = GetWorld();
+    if (!World) return nullptr;
+
+    FVector SpawnLocation = GetRandomPointInVolume();
+    SpawnLocation.Z = 0;
+
+    FActorSpawnParameters SpawnParams;
+    SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+    ASPEnemy* NewEnemy = World->SpawnActor<ASPEnemy>(DefaultEnemyClass, SpawnLocation, FRotator::ZeroRotator, SpawnParams);
+    if (NewEnemy)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Enemy Spawned at %s"), *SpawnLocation.ToString());
+        return NewEnemy;
+    }
+    return nullptr;
+}
+
+FVector ASpawnVolume::GetRandomPointInVolume() const
+{
+    if (!SpawningBox) return GetActorLocation();
+
+    FVector Origin = SpawningBox->GetComponentLocation();
+    FVector Extent = SpawningBox->GetScaledBoxExtent();
+    return FMath::RandPointInBox(FBox::BuildAABB(Origin, Extent));
+}
+
 AActor* ASpawnVolume::SpawnRandomItem()
 {
     if (FItemSpawnRow* SelectedRow = GetRandomItem())
     {
         if (UClass* ActualClass = SelectedRow->ItemClass.Get())
         {
-           return SpawnItem(ActualClass);
+            return SpawnItem(ActualClass);
         }
     }
     return nullptr;
@@ -58,44 +95,25 @@ FItemSpawnRow* ASpawnVolume::GetRandomItem() const
             return Row;
         }
     }
-    
+
     return nullptr;
-}
-
-FVector ASpawnVolume::GetRandomPointInVolume() const
-{
-    FVector BoxExtent = SpawningBox->GetScaledBoxExtent();
-    FVector BoxOrigin = SpawningBox->GetComponentLocation();
-
-    return BoxOrigin + FVector(
-        FMath::FRandRange(-BoxExtent.X, BoxExtent.X),
-        FMath::FRandRange(-BoxExtent.Y, BoxExtent.Y),
-        FMath::FRandRange(-BoxExtent.Z, BoxExtent.Z)
-    );
 }
 
 AActor* ASpawnVolume::SpawnItem(TSubclassOf<AActor> ItemClass)
 {
     if (!ItemClass) return nullptr;
 
-    AActor* SpawnedActor = GetWorld()->SpawnActor<AActor>(
+    UWorld* World = GetWorld();
+    if (!World) return nullptr;
+
+    FActorSpawnParameters SpawnParams;
+    SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+
+    AActor* SpawnedActor = World->SpawnActor<AActor>(
         ItemClass,
         GetRandomPointInVolume(),
-        FRotator::ZeroRotator
+        FRotator::ZeroRotator,
+        SpawnParams
     );
-    return SpawnedActor;
-}
-
-AActor* ASpawnVolume::SpawnEnemy()
-{
-    FVector EnemyLocation = GetRandomPointInVolume();
-    EnemyLocation.Z = 0;
-
-    AActor* SpawnedActor = GetWorld()->SpawnActor<ASPEnemy>(
-        DefaultEnemyClass,
-        EnemyLocation,
-        FRotator::ZeroRotator
-    );
-
     return SpawnedActor;
 }
