@@ -48,6 +48,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Menu")
 	void StartGame();
 
+	void SetupInputComponent(); //New
+
+	void OnFire(); //New
+
 protected:
 	virtual void BeginPlay() override;
 };

@@ -5,10 +5,12 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Compononts/CapsuleComponent.h"
 
 ASPCharacter::ASPCharacter()
 {
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true; // false¿´À½ New
+	CurrentWeapon = nullptr; //New
 
 	SpringArmComp = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
 	SpringArmComp->SetupAttachment(RootComponent);
@@ -30,7 +32,19 @@ ASPCharacter::ASPCharacter()
 
 	CurrentWeapon = nullptr;
 	WeaponSocketName = "WeaponSocket";
+
+	// Ãæµ¹ ÀÌº¥Æ® ¹ÙÀÎµù New
+	GetCapsuleComponent()->OnComponentBeginOverlap.AddDynamic(this, &ASPCharacter::OnOverlapBegin);
 }
+
+void ASPCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor && OtherActor->IsA(AGun::StaticClass())) // Ãæµ¹ÇÑ ¾×ÅÍ°¡ ÃÑÀÎ °æ¿ì
+	{
+		AGun* Weapon = Cast<AGun>(OtherActor);
+		PickupWeapon(Weapon); // ÃÑÀ» È¹µæ
+	}
+} //New
 
 
 void ASPCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -253,3 +267,26 @@ void ASPCharacter::OnDeath()
 {
 	UE_LOG(LogTemp, Error, TEXT("Character is Dead!"));
 }
+
+void ASPCharacter::BeginPlay() //New
+{
+	Super::BeginPlay();
+}
+
+void ASPCharacter::PickupWeapon(AGun* Weapon)
+{
+	if (Weapon)
+	{
+		CurrentWeapon = Weapon;
+		Weapon->Pickup(this); // ÃÑÀ» È¹µæ
+		UE_LOG(LogTemp, Warning, TEXT("Picked up weapon: %s"), *Weapon->GetName());
+	}
+} //New
+
+void ASPCharacter::FireWeapon() //New
+{
+	if (CurrentWeapon)
+	{
+		CurrentWeapon->Fire(); // ÃÑ ¹ß»ç
+	}
+}//New

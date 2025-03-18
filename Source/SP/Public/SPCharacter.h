@@ -75,7 +75,24 @@ protected:
 	void EquipWeapon(AWeapon* WeaponToEquip);
 	UFUNCTION(BlueprintCallable, Category = "Weapon")
 	void FireWeapon();
-	
+
+public: //New
+	ASPCharacter();
+
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void PickupWeapon(AGun* Weapon); // ÃÑÀ» È¹µæÇÏ´Â ±â´É Ãß°¡New
+
+public: //New
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult); //New
+	UFUNCTION(BlueprintCallable, Category = "Weapon")
+	void FireWeapon(); // ÃÑ ¹ß»ç ±â´É Ãß°¡ New
+
+protected: //New
+	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Weapon")
+	AGun* CurrentWeapon; // ÇöÀç ¼ÒÀ¯ÇÑ ÃÑ //New
 
 private:
 	float NormalSpeed;
