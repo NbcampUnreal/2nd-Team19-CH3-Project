@@ -5,7 +5,6 @@
 #include "Blueprint/UserWidget.h"
 #include "Kismet/GameplayStatics.h"
 #include "Components/TextBlock.h"
-#include <SPGameMode.cpp> //New
 
 ASPPlayerController::ASPPlayerController()
 	:InputMappingContext(nullptr),
@@ -131,18 +130,3 @@ void ASPPlayerController::StartGame()
 
 	UGameplayStatics::OpenLevel(GetWorld(), FName("BasicLevel"));
 }
-
-void ASPPlayerController::SetupInputComponent() //New
-{
-	Super::SetupInputComponent();
-
-	InputComponent->BindAction("Fire", IE_Pressed, this, &ASPPlayerController::OnFire);
-}
-
-void ASPPlayerController::OnFire()
-{
-	if (ASPCharacter* Character = Cast<ASPCharacter>(GetPawn()))
-	{
-		Character->FireWeapon(); // รั น฿ป็
-	}
-} //New
