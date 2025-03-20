@@ -20,10 +20,8 @@ public:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Spawning")
     USceneComponent* Scene;
-
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
     UBoxComponent* SpawningBox;
-
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
     TSubclassOf<ASPEnemy> EnemyClass;
 

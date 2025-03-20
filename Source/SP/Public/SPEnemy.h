@@ -16,9 +16,6 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
     float Health;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components")
-    UStaticMeshComponent* EnemyMesh;
-
     virtual void BeginPlay() override;
     virtual float TakeDamage(float DamageAmount, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 

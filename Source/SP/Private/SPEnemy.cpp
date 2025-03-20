@@ -7,11 +7,6 @@ ASPEnemy::ASPEnemy()
 {
     PrimaryActorTick.bCanEverTick = false;
 
-    EnemyMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("EnemyMesh"));
-    SetRootComponent(EnemyMesh);
-
-    EnemyMesh->SetCollisionProfileName(TEXT("BlockAllDynamic"));
-
     Health = 100.f;
 }
 
