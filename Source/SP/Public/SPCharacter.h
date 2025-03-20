@@ -28,6 +28,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Health")
 	void AddHealth(float Amount);
 
+	UFUNCTION(BlueprintCallable, Category = "Health")
+	void ApplyDamage(float Damage);
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
 	float MaxHealth;

@@ -3,6 +3,8 @@
 #include "SPEnemy.h"
 #include "Engine/World.h"
 #include "TimerManager.h"
+#include "GameFramework/Character.h"
+#include "Engine/DamageEvents.h"
 
 ASPSpawnEnemy::ASPSpawnEnemy()
 {
@@ -14,6 +16,9 @@ ASPSpawnEnemy::ASPSpawnEnemy()
     SpawningBox = CreateDefaultSubobject<UBoxComponent>(TEXT("SpawningBox"));
     SpawningBox->SetupAttachment(Scene);
 
+    SpawningBox->SetCollisionProfileName(TEXT("Trigger"));
+    SpawningBox->SetGenerateOverlapEvents(true);
+
     SpawnInterval = 5.0f;
     SpawnDuration = 60.0f;
     MaxEnemies = 10;
@@ -23,6 +28,9 @@ ASPSpawnEnemy::ASPSpawnEnemy()
 void ASPSpawnEnemy::BeginPlay()
 {
     Super::BeginPlay();
+
+    SpawningBox->OnComponentBeginOverlap.AddDynamic(this, &ASPSpawnEnemy::OnOverlapBegin);
+
     StartSpawning();
 }
 
@@ -74,4 +82,22 @@ FVector ASPSpawnEnemy::GetRandomPointInVolume() const
 void ASPSpawnEnemy::OnEnemyDestroyed()
 {
     CurrentEnemies--;
+}
+
+void ASPSpawnEnemy::OnOverlapBegin(UPrimitiveComponent* OverlappedComp,
+    AActor* OtherActor,
+    UPrimitiveComponent* OtherComp,
+    int32 OtherBodyIndex,
+    bool bFromSweep,
+    const FHitResult& SweepResult)
+{
+    ACharacter* PlayerCharacter = Cast<ACharacter>(OtherActor);
+    if (PlayerCharacter)
+    {
+        float DamageAmount = 10.0f;
+        FDamageEvent DamageEvent;
+        PlayerCharacter->TakeDamage(DamageAmount, DamageEvent, nullptr, this);
+
+        UE_LOG(LogTemp, Warning, TEXT("Player took damage!"));
+    }
 }

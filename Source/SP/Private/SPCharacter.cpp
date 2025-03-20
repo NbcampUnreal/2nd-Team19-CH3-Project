@@ -5,6 +5,8 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "GameFramework/Character.h"
+#include "Engine/DamageEvents.h"
 
 ASPCharacter::ASPCharacter()
 {
@@ -251,4 +253,9 @@ void ASPCharacter::FireWeapon()
 void ASPCharacter::OnDeath()
 {
 	UE_LOG(LogTemp, Error, TEXT("Character is Dead!"));
+}
+
+void ASPCharacter::ApplyDamage(float Damage)
+{
+	TakeDamage(Damage, FDamageEvent(), nullptr, nullptr);
 }
